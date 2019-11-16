@@ -13,7 +13,7 @@
           v-if="currentUser.isAdmin"
           type="button"
           class="btn btn-danger float-right"
-          @click.stop.prevent="deleteComment(comment.id)"
+          @click.stop.prevent="handleDeleteButtonClick(comment.id)"
         >
           Delete
         </button>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import { fromNowFilter } from './../utils/mixins'
 
 const dummyUser = {
@@ -57,6 +58,12 @@ export default {
   data(){
     return {
       currentUser: dummyUser.currentUser
+    }
+  },
+  methods: {
+    handleDeleteButtonClick(commentId){
+      console.log('handleDeleteButtonClick', commentId)
+      this.$emit('after-delete-comment', commentId)
     }
   }
 }
