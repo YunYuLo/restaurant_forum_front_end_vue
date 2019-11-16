@@ -6,12 +6,15 @@
       :initial-restaurant="restaurant"/>
     <hr>
     <!-- 餐廳評論 RestaurantComments -->
+    <RestaurantComments :restaurant-comments="restaurantComments" />
     <!-- 新增評論 CreateComment -->
   </div>
 </template>
 <script>
 /* eslint-disable */
 import RestaurantDetail from './../components/RestaurantDetail'
+import RestaurantComments from './../components/RestaurantComments'
+
 
 const dummyData = {
   "restaurant": {
@@ -73,11 +76,12 @@ const dummyData = {
         ]
     },
     "isFavorited": false,
-    "isLiked": true
+    "isLiked": true,
 }
 export default {
   components:{
-    RestaurantDetail
+    RestaurantDetail,
+    RestaurantComments
   },
   data () {
     return {
@@ -93,7 +97,7 @@ export default {
         isFavorited: false,
         isLiked: false,
       },
-      RestaurantComments: []
+      restaurantComments: [],
     }
   },
   created () {
@@ -117,7 +121,7 @@ export default {
         isLiked: dummyData.isLiked,
       }
 
-      this.RestaurantComments = dummyData.restaurant.Comments
+      this.restaurantComments = dummyData.restaurant.Comments
     }
   }
 }
