@@ -2,16 +2,14 @@
   <div class="row">
     <div class="col-md-12 mb-3">
       <h1>{{restaurant.name}}</h1>
-      <p class="badge badge-secondary mt-1 mb-3">
-        {{restaurant.categoryName}}
-      </p>
+      <p class="badge badge-secondary mt-1 mb-3">{{restaurant.categoryName}}</p>
     </div>
     <div class="col-lg-4">
       <img
-        class="img-responsive center-block" 
+        class="img-responsive center-block"
         :src="restaurant.image"
         style="width: 250px;margin-bottom: 25px;"
-      >
+      />
       <div class="contact-info-wrap">
         <ul class="list-unstyled">
           <li>
@@ -31,84 +29,76 @@
     </div>
     <div class="col-lg-8">
       <p>{{ restaurant.description }}</p>
-      <a
+      <router-link
         class="btn btn-primary btn-border mr-2"
-        href="#"
-      >Dashboard</a>
+        :to="{name: 'restaurant-dashboard', params: {id: restaurant.id }}"
+      >Dashboard</router-link>
 
       <button
         v-if="restaurant.isFavorited"
         type="button"
         class="btn btn-danger btn-border mr-2"
         @click.stop.prevent="deleteFavorite"
-      >
-        移除最愛
-      </button>
+      >移除最愛</button>
       <button
         v-else
         type="button"
         class="btn btn-primary btn-border mr-2"
         @click.stop.prevent="addFavorite"
-      >
-        加到最愛
-      </button>
+      >加到最愛</button>
       <button
         v-if="restaurant.isLiked"
         type="button"
         class="btn btn-danger like mr-2"
         @click.stop.prevent="deleteLike"
-      >
-        Unlike
-      </button>
+      >Unlike</button>
       <button
         v-else
         type="button"
         class="btn btn-primary like mr-2"
-        @click.stop.prevent="addLike"        
-      >
-        Like
-      </button>
+        @click.stop.prevent="addLike"
+      >Like</button>
     </div>
   </div>
 </template>
 <script>
 export default {
   props: {
-    initialRestaurant:{
+    initialRestaurant: {
       type: Object,
       required: true
     }
   },
-  data(){
+  data() {
     return {
       restaurant: this.initialRestaurant
-    }
+    };
   },
-  methods:{
-    addFavorite(){
-      this.restaurant={
+  methods: {
+    addFavorite() {
+      this.restaurant = {
         ...this.restaurant,
-        isFavorited:true
-      }
+        isFavorited: true
+      };
     },
-    deleteFavorite(){
-      this.restaurant={
+    deleteFavorite() {
+      this.restaurant = {
         ...this.restaurant,
-        isFavorited:false
-      }
+        isFavorited: false
+      };
     },
-    addLike(){
-      this.restaurant={
+    addLike() {
+      this.restaurant = {
         ...this.restaurant,
-        isLiked:true
-      }
+        isLiked: true
+      };
     },
-    deleteLike(){
-      this.restaurant={
+    deleteLike() {
+      this.restaurant = {
         ...this.restaurant,
-        isLiked:false
-      }
+        isLiked: false
+      };
     }
   }
-}
+};
 </script>
