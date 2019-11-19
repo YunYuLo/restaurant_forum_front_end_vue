@@ -1,6 +1,12 @@
 <template>
   <div class="container py-5">
     <!-- UserShowProfileCard -->
+    <h1>userprofile</h1>
+    <UserProfileCard
+      :user="user"
+      :is-current-user="currentUser.id === user.id"
+      :initial-is-followed="isFollowed"
+    />
 
     <div class="row">
       <div class="col-md-4">
@@ -16,6 +22,8 @@
 </template>
 
 <script>
+import UserProfileCard from "./../components/UserProfileCard";
+
 const dummyData = {
   profile: {
     id: 1,
@@ -127,8 +135,23 @@ const dummyData = {
   comments: [],
   favoritedRestaurants: []
 };
+
+const dummyUser = {
+  currentUser: {
+    id: 1,
+    name: "管理者",
+    email: "root@example.com",
+    image: "https://i.pravatar.cc/300",
+    isAdmin: true
+  },
+  isAuthenticated: true
+};
+
 export default {
   name: "User",
+  components: {
+    UserProfileCard
+  },
   data() {
     return {
       user: {
@@ -140,7 +163,13 @@ export default {
         followersLength: 0,
         commentsLength: 0,
         favoritedRestaurantsLength: 0
-      }
+      },
+      isFollowed: false,
+      followings: [],
+      followers: [],
+      comments: [],
+      favoritedRestaurants: [],
+      currentUser: dummyUser.currentUser
     };
   },
   created() {
