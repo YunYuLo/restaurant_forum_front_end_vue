@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card mb-3">
     <div class="card-header">
       <strong>{{ favoritedRestaurants.length }}</strong> 收藏的餐廳
     </div>

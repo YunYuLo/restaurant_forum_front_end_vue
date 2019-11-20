@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card mb-3">
     <div class="card-header">
       <strong>{{ comments.length }}</strong> 已評論餐廳
     </div>
