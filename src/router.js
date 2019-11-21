@@ -57,6 +57,11 @@ export default new Router({
       component: () => import('./views/UsersTop.vue')
     },
     {
+      path: '/users/:id/edit',
+      name: 'profile-edit',
+      component: () => import('./views/ProfileEdit')
+    },
+    {
       path: '/users/:id',
       name: 'user',
       component: () => import('./views/User.vue')
