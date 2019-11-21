@@ -145,6 +145,24 @@ export default {
   },
   created() {
     this.fetchCategories();
+    this.restaurant = {
+      ...this.restaurant,
+      ...this.initialRestaurant
+    };
+  },
+  props: {
+    initialRestaurant: {
+      type: Object,
+      default: () => ({
+        name: "",
+        categoryId: "",
+        tel: "",
+        address: "",
+        description: "",
+        image: "",
+        openingHours: ""
+      })
+    }
   },
   methods: {
     fetchCategories() {
