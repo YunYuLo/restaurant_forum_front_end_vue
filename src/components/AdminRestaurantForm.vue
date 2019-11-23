@@ -123,6 +123,14 @@ export default {
       isLoading: true
     };
   },
+  watch: {
+    initialRestaurant(restaurant) {
+      this.restaurant = {
+        ...this.restaurant,
+        ...restaurant
+      };
+    }
+  },
   created() {
     this.fetchCategories();
     this.restaurant = {
