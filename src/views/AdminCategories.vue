@@ -9,7 +9,12 @@
           <input v-model="newCategoryName" type="text" class="form-control" placeholder="新增餐廳類別..." />
         </div>
         <div class="col-auto">
-          <button type="button" class="btn btn-primary" @click.stop.prevent="createCategory">新增</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click.stop.prevent="createCategory"
+            :disabled="isProcessing"
+          >新增</button>
         </div>
       </div>
     </form>
@@ -74,7 +79,8 @@ export default {
   data() {
     return {
       categories: [],
-      newCategoryName: ""
+      newCategoryName: "",
+      isProcessing: false
     };
   },
   // 5. 調用 `fetchCategories` 方法
@@ -101,12 +107,28 @@ export default {
       }
     },
     //新增
-    createCategory() {
-      this.categories.push({
-        id: uuid(),
-        name: this.newCategoryName
-      });
-      this.newCategoryName = "";
+    async createCategory() {
+      try {
+        this.isProcessing = true;
+        const { data, statusText } = await adminAPI.categories.create({
+          name: this.newCategoryName
+        });
+        if (statusText !== "OK" || data.status !== "success") {
+          throw new Error(statusText);
+        }
+        this.categories.push({
+          ...data.category,
+          isEditing: false
+        });
+        this.newCategoryName = "";
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          type: "error",
+          title: "無法新增餐廳類別，請稍後再試"
+        });
+      }
     },
     //刪除
     deleteCategory(categoryId) {
