@@ -121,8 +121,8 @@ export default {
           ...data.category,
           isEditing: false
         });
-        this.newCategoryName = "";
         this.isProcessing = false;
+        this.newCategoryName = "";
       } catch (error) {
         this.isProcessing = false;
         Toast.fire({
@@ -132,10 +132,23 @@ export default {
       }
     },
     //刪除
-    deleteCategory(categoryId) {
-      this.categories = this.categories.filter(
-        category => category.id !== categoryId
-      );
+    async deleteCategory(categoryId) {
+      try {
+        const { data, statusText } = await adminAPI.categories.delete({
+          categoryId
+        });
+        if (statusText !== "OK" || data.status !== "success") {
+          throw new Error(statusText);
+        }
+        this.categories = this.categories.filter(
+          category => category.id !== categoryId
+        );
+      } catch (error) {
+        Toast.fire({
+          type: "error",
+          title: "無法刪除該餐廳類別，請稍後再試"
+        });
+      }
     },
     //切換編輯
     toggleIsEditing(categoryId) {
@@ -149,6 +162,7 @@ export default {
         };
       });
     },
+    //編輯
     async updateCategory({ categoryId, name }) {
       try {
         const { data, statusText } = await adminAPI.categories.update({
