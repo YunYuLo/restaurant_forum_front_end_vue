@@ -121,6 +121,7 @@ export default {
           ...data.category,
           isEditing: false
         });
+        this.fetchCategories();
         this.isProcessing = false;
         this.newCategoryName = "";
       } catch (error) {
