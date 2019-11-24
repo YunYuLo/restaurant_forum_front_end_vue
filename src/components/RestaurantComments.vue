@@ -1,70 +1,63 @@
 <template>
   <div>
-    <h2 class="my-4">
-      所有評論：
-    </h2>
+    <h2 class="my-4">所有評論：</h2>
 
-    <div
-     v-for="comment in restaurantComments"
-     :key="comment.id"
-    >
+    <div v-for="comment in restaurantComments" :key="comment.id">
       <blockquote class="blockquote mb-0">
         <button
           v-if="currentUser.isAdmin"
           type="button"
           class="btn btn-danger float-right"
-          @click.stop.prevent="handleDeleteButtonClick(comment.id)"
-        >
-          Delete
-        </button>
+          @click.stop.prevent="deleteComment(comment.id)"
+        >Delete</button>
         <h3>
-          <a href="#">
-            {{comment.User.name}}
-          </a>
+          <router-link :to="{ name: 'user', params: {id: comment.User.id }}">{{comment.User.name}}</router-link>
         </h3>
         <p>{{comment.text}}</p>
-        <footer class="blockquote-footer">
-          {{ comment.createdAt | fromNow }}
-        </footer>
+        <footer class="blockquote-footer">{{ comment.createdAt | fromNow }}</footer>
       </blockquote>
-      <hr>
+      <hr />
     </div>
   </div>
 </template>
 
 <script>
 /* eslint-disable */
-import { fromNowFilter } from './../utils/mixins'
-
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: '管理者',
-    email: 'root@example.com',
-    image: 'https://i.pravatar.cc/300',
-    isAdmin: true
-  },
-  isAuthenticated: true,
-}
+import { fromNowFilter } from "./../utils/mixins";
+import { mapState } from "vuex";
+import commentsAPI from "./../apis/comments";
+import { Toast } from "./../utils/helpers";
 
 export default {
   mixins: [fromNowFilter],
-  props:{
+  props: {
     restaurantComments: {
       type: Array,
       required: true
     }
   },
-  data(){
-    return {
-      currentUser: dummyUser.currentUser
-    }
+  computed: {
+    ...mapState(["currentUser"])
   },
   methods: {
-    handleDeleteButtonClick(commentId){
-      console.log('handleDeleteButtonClick', commentId)
-      this.$emit('after-delete-comment', commentId)
+    async deleteComment(commentId) {
+      try {
+        const { data, statusText } = await commentsAPI.delete({ commentId });
+        if (statusText !== "OK" || data.status !== "success") {
+          throw new Error(statusText);
+        }
+        this.$emit("after-delete-comment", commentId);
+        Toast.fire({
+          type: "success",
+          title: "移除評論成功"
+        });
+      } catch (error) {
+        Toast.fire({
+          type: "error",
+          title: "無法移除評論，請稍後再試"
+        });
+      }
     }
   }
-}
+};
 </script>
