@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 
@@ -30,17 +31,6 @@ import UserFollowigsCard from "./../components/UserFollowingsCard";
 import UserFollowersCard from "./../components/UserFollowersCard";
 import UserCommentsCard from "./../components/UserCommentsCard";
 import UserFavoritedRestaurantsCard from "./../components/UserFavoritedRestaurantsCard";
-
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: "管理者",
-    email: "root@example.com",
-    image: "https://i.pravatar.cc/300",
-    isAdmin: true
-  },
-  isAuthenticated: true
-};
 
 export default {
   name: "User",
@@ -67,9 +57,12 @@ export default {
       followings: [],
       followers: [],
       comments: [],
-      favoritedRestaurants: [],
-      currentUser: dummyUser.currentUser
+      favoritedRestaurants: []
     };
+  },
+  //將資料從 Vuex 取出
+  computed: {
+    ...mapState(["currentUser"])
   },
   created() {
     //從路由取得使用者 id
