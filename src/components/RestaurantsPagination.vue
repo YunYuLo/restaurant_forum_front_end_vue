@@ -2,9 +2,7 @@
   <nav aria-label="Page navigation example">
     <ul class="pagination">
       <!-- 回到上一頁 previousPage -->
-      <li
-       v-show="previousPage" 
-       class="page-item">
+      <li v-show="previousPage" class="page-item">
         <router-link
           class="page-link"
           aria-label="Previous"
@@ -24,15 +22,11 @@
         <router-link
           class="page-link"
           :to="{name: 'restaurants', query: { categoryId, page }}"
-        >
-          {{ page }}
-        </router-link>
+        >{{ page }}</router-link>
       </li>
 
       <!-- 前往下一頁 nextPage -->
-      <li 
-       v-show="nextPage"
-       class="page-item">
+      <li v-show="nextPage" class="page-item">
         <router-link
           class="page-link"
           :to="{name: 'restaurants', query: { categoryId, page: nextPage }}"
@@ -62,16 +56,46 @@ export default {
     }
   },
   computed: {
-    previousPage(){
-      return this.currentPage === 1
-      ? null
-      : this.currentPage-1
+    previousPage() {
+      return this.currentPage === 1 ? null : this.currentPage - 1;
     },
-    nextPage(){
-      return this.currentPage+1>this.totalPage
-      ?null
-      :this.currentPage+1
+    nextPage() {
+      return this.currentPage + 1 > this.totalPage
+        ? null
+        : this.currentPage + 1;
     }
   }
-}
+};
 </script>
+<style scoped>
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-link {
+  height: 37px;
+  padding: 7px 20px;
+  color: #bd2333;
+}
+
+.page-item.active .page-link,
+.page-item.active span {
+  color: white;
+  background-color: #bd2333;
+  border-color: #bd2333;
+  z-index: 1;
+}
+
+.page-item span {
+  color: #bd2333;
+}
+
+a.page-link:hover,
+a.page-link:hover span {
+  color: white;
+  background-color: #bd2333;
+  border-color: #bd2333;
+}
+</style>
